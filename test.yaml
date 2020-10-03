@@ -1,4 +1,8 @@
-- AccountId: 123456789012
-  Regions:
-    - us-east-1
-    - us-west-2
+AWSControlTowerBP-BASELINE-ROLES:
+  123456789012:
+    Regions:
+      - us-east-1
+      - us-west-2
+  123456789013:
+    Regions:
+      - us-east-1
