@@ -17,6 +17,10 @@ def read_yaml ():
 session = boto3.session.Session(profile_name='my_account')
 cf_client = session.client('cloudformation')
 
+def check_region():
+    pass
+
+
 def get_stack_instance(stack_instance):
     response = cf_client.list_stack_instances(
         StackSetName = stack_instance
@@ -25,14 +29,11 @@ def get_stack_instance(stack_instance):
     return response
 
 def is_account_in_stackset(accounts, stackset):
-    # TODO: fix your crap logic
     print("Accounts: {}".format(accounts))
     for account in stackset['Summaries']:
-        print("Account: {}".format(account))
-        if account['Account'] not in accounts:
-            print("Enter if...")
+        print("Account: {}".format(account['Account']))
+        if account['Account'] in accounts:
             print("Stackset: {} - Account: {}".format(account['Account'], accounts))
-
 
 
 stack_sets = read_yaml()

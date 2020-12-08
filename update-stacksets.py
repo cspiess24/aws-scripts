@@ -48,17 +48,22 @@ def add_account_to_stackset(stack_info):
 def _check_status(account):
     print('_check_status')
     for stackset in account:
-        response = cf_client.describe_stack_set_operation(
-                StackSetName = stackset['stackset'],
-                OperationId = stackset['operationId']
-            )
-        print(response)
+        if stackset['status'] != 'SUCCEEDED' or stackset['status'] != 'FAILED' or stackset['status'] != 'STOPPED':
+            response = cf_client.describe_stack_set_operation(
+                    StackSetName = stackset['stackset'],
+                    OperationId = stackset['operationId']
+                )
+            print(response)
+            stackset['status'] = response['StackSetOperation']['Status']
+    print(account)
+    return account
 
 def check_status(all_stackset_updates):
     accounts_pending = True
     while accounts_pending:
         for account in all_stackset_updates:
-            _check_status(all_stackset_updates[account])
+            account = _check_status(all_stackset_updates[account])
+        
         accounts_pending = False
 
 
